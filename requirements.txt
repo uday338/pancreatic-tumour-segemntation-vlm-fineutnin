@@ -1,0 +1,18 @@
+# Versions used on the PADUM HPC (Python 3.10). Install PyTorch first for your CUDA, e.g.
+#   pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu118
+torch==2.6.0
+torchvision==0.21.0
+nnunetv2
+transformers==4.51.3
+peft==0.20.0
+accelerate==1.14.0
+qwen-vl-utils==0.0.14
+numpy==2.2.5
+scipy==1.15.3
+pandas==2.3.2
+scikit-learn==1.7.1
+SimpleITK==2.5.5
+nibabel
+pillow
+matplotlib
+pytest

@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N vlm_eval
+#PBS -P ${PBS_PROJECT:-your_project_code}
+#PBS -q standard
+#PBS -l select=1:ncpus=4:ngpus=1:centos=icelake
+#PBS -l walltime=03:00:00
+#PBS -o logs/vlm_eval.out
+#PBS -e logs/vlm_eval.err
+# centos=icelake pins the job to A100 nodes; the older K40m GPUs are too old for PyTorch 2.6 + CUDA 11.8.
+cd $PBS_O_WORKDIR
+mkdir -p logs
+source configs/paths.env
+# module load / conda activate your environment here
+OUT=${OUT:-vlm_out}
+python -m pancvlm.eval_vlm --data vqa_data --baseline-only --out results/eval_majority
+python -m pancvlm.eval_vlm --data vqa_data --adapter "$OUT/lora_adapter" --out "results/eval_$OUT"
+python -m pancvlm.eval_vlm --data vqa_data --zero-shot-hint --out results/eval_zeroshot

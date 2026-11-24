@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N vlm_train
+#PBS -P ${PBS_PROJECT:-your_project_code}
+#PBS -q standard
+#PBS -l select=1:ncpus=4:ngpus=1:centos=icelake
+#PBS -l walltime=06:00:00
+#PBS -o logs/vlm_train.out
+#PBS -e logs/vlm_train.err
+# centos=icelake pins the job to A100 nodes; the older K40m GPUs are too old for PyTorch 2.6 + CUDA 11.8.
+cd $PBS_O_WORKDIR
+mkdir -p logs
+source configs/paths.env
+# module load / conda activate your environment here
+# v1: defaults. v2: qsub -v EXTRA="--lora-r 32 --lora-alpha 64 --lr 5e-4 --epochs 5",OUT=vlm_out_v2 jobs/vlm_train.pbs
+OUT=${OUT:-vlm_out}
+python -m pancvlm.diagnose_vlm --data vqa_data --no-model
+python -m pancvlm.train_vlm --data vqa_data --output-dir "$OUT" ${EXTRA:-}
+python -m pancvlm.diagnose_vlm --data vqa_data --adapter "$OUT/lora_adapter" --n-batches 16

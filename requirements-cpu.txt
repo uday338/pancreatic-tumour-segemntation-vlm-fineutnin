@@ -1,0 +1,9 @@
+# Enough for data prep, facts, radiomics, VQA building, scoring and the unit tests (no GPU).
+numpy
+scipy
+pandas
+scikit-learn
+SimpleITK
+pillow
+matplotlib
+pytest

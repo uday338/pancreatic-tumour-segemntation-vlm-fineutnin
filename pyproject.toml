@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pancvlm"
+version = "0.1.0"
+description = "Pancreatic tumor CT: nnU-Net v2 segmentation with anatomical priors, radiomics, automatic VQA and LoRA fine-tuning of Qwen2.5-VL"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy", "pandas", "scikit-learn", "SimpleITK", "pillow"]
+
+[project.optional-dependencies]
+vlm = ["torch", "transformers>=4.49", "peft", "accelerate", "qwen-vl-utils"]
+seg = ["nnunetv2"]
+dev = ["pytest", "matplotlib"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

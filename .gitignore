@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+.pytest_cache/
+# data and outputs (large, regenerate or back up separately)
+*.nii
+*.nii.gz
+nnUNet_raw/
+nnUNet_preprocessed/
+nnUNet_results/
+vqa_data/
+vlm_out*/
+preds/
+results/
+radiomics/
+logs/
+*.out
+*.err
+configs/paths.env

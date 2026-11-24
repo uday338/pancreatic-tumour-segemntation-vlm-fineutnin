@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N nnunet_predict_organs
+#PBS -P ${PBS_PROJECT:-your_project_code}
+#PBS -q standard
+#PBS -l select=1:ncpus=4:ngpus=1:centos=icelake
+#PBS -l walltime=12:00:00
+#PBS -o logs/nnunet_predict_organs.out
+#PBS -e logs/nnunet_predict_organs.err
+# centos=icelake pins the job to A100 nodes; the older K40m GPUs are too old for PyTorch 2.6 + CUDA 11.8.
+cd $PBS_O_WORKDIR
+mkdir -p logs
+source configs/paths.env
+# module load / conda activate your environment here
+# Run the AMOS organ model on the MSD scans to get 15 predicted organ masks per patient.
+nnUNetv2_predict -i "$nnUNet_raw"/Dataset00${D_BASE}_*/imagesTr -o preds/amos_on_msd \
+    -d "$D_AMOS" -c 3d_fullres -f 0 1 2 3 4
